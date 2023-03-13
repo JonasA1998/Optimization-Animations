@@ -1,6 +1,31 @@
 import numpy as np
 import numdifftools as nd
 import numpy.linalg as LA
+import pickle
+import scipy as sp
+import matplotlib.pyplot as plt
+import seaborn as sns
+sns.set(context='talk',style='white',palette='colorblind')
+import numpy as np
+import scipy
+import scipy.io as sciio
+import imageio
+import numpy.linalg as LA
+import matplotlib
+import matplotlib.pyplot as plt
+from matplotlib import ticker, cm
+from matplotlib.animation import FuncAnimation
+import matplotlib.colors as colors
+from matplotlib.colors import LogNorm
+import colorcet as ccm
+
+matplotlib.rc('image', interpolation='nearest')
+matplotlib.rc('figure',facecolor='white')
+matplotlib.rc('image',cmap='viridis')
+matplotlib.rc('animation',html='html5')
+
+prop_cycle = plt.rcParams['axes.prop_cycle']
+import colorcet as ccm
 def armijo(f,x,d,l=.5,alpha=1/4,max_it=30,TOL=2):
         ''' Armijo stepsize regularization. 
         
@@ -107,3 +132,27 @@ class opti:
                 print("Newt reached iteration limit:%d"%ite)
             x_out.append(x_ar)
         return x0,x_out,maxlen
+    
+    def plotrange(x_vec):
+        xmin = x_vec[0][0][0]
+        ymin = x_vec[0][0][1]
+        xmax = xmin
+        ymax = ymin
+        for i in range(len(x_vec)):
+            for j in range(len(x_vec[i])):
+                if(xmin>x_vec[i][j][0]):
+                    xmin=x_vec[i][j][0]
+                if(xmax<x_vec[i][j][0]):
+                    xmax=x_vec[i][j][0]
+                if(ymin>x_vec[i][j][1]):
+                    ymin=x_vec[i][j][1]
+                if(ymax<x_vec[i][j][1]):
+                    ymax=x_vec[i][j][1]
+        return xmin,xmax,ymin,ymax
+
+    def update_lines(num, x_vec, lines):
+        for line, vec in zip(lines, x_vec):
+
+            vec=np.array(vec)
+            line.set_data(vec[:num, :2].T)
+        return lines
