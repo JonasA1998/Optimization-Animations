@@ -5,6 +5,9 @@ You can define different functions $f:\mathbb{R^{2}}\to\mathbb{R}$ or $f:\mathbb
 
 
 ```python
+rosen = lambda x : (1-x[0])**2 + 105.*(x[1]-x[0]**2)**2
+x0,x_vec,max_len=opti.grad_des(rosen,[[0,0]],.5,100,True)
+x0,x_ar,max_len1 = opti.ungedNewt(rosen,[[0,0]],.5,100,True)
 (...) # in notebook
 # Creating the Animation object
 anim = animation.FuncAnimation(
